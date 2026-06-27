@@ -1,8 +1,9 @@
 # Proyecto QUBO-QAOA: matching bipartito 4x4
 
-## Dataset
-Nombre del dataset:
-    - Afluencia diaria de metrobus CDMX
+# Dataset
+
+## Nombre del dataset:
+ - ### Afluencia diaria de metrobus CDMX
 
 
 Fuente oficial o confiable:
@@ -19,27 +20,40 @@ URL raw del CSV usado en data/:
 Licencia o condiciones de uso:
 
 Fecha de consulta:
+
 Dominio del problema:
 
 ## Modelado
 Conjunto A:
+
 Criterio para elegir exactamente 4 elementos de A:
+
 Conjunto B:
+
 Criterio para elegir exactamente 4 elementos de B:
+
 Definición de x_ij = 1:
+
 Interpretación de x_ij = 0:
 
 ## Matriz de score
 Columnas usadas:
+
 Fórmula exacta de S_ij:
+
 Normalización aplicada:
+
 Matriz S 4x4:
 
 ## Restricciones
 Restricción por filas:
+
 Restricción por columnas:
+
 Otras restricciones, si existen:
+
 Justificación de por qué el problema es matching bipartito:
+
 Justificación de por qué es razonable modelarlo como QUBO:
 
 ## Resultados
