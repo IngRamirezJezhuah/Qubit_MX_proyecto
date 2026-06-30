@@ -47,6 +47,8 @@ manejo en la zonas de pantitlan, Indios verdes,
 
 # Matriz de score
 
+$$S = \begin{pmatrix} 10.0 & 56.56 & 37.55 & 150.68 \\ 20.0 & 27.15 & 25.03 & 75.34 \\ 30.0 & 33.94 & 62.58 & 50.23 \\ 15.0 & 45.25 & 50.07 & 125.57 \end{pmatrix}$$
+
 ## Columnas usadas:
 
 ## Fórmula exacta de S_ij:
