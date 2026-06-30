@@ -5,35 +5,35 @@
 ![alt text](image.png)
 # Dataset
 
-Nombre del dataset:
+`Nombre del dataset:`
 
 Afluencia diaria de metrobus CDMX
 
-Fuente oficial o confiable:
+`Fuente oficial o confiable:`
 
 Organismo Público de Transporte / Portal de Datos Abiertos de la CDMX
 
-Institución responsable:
+`Institución responsable:`
 
 Secretaria de Movilidad (SEMOVI)
 
-URL de la fuente:
+`URL de la fuente:`
 
 https://datos.cdmx.gob.mx/dataset/afluencia-diaria-de-metrobus-cdmx
 
-URL raw del CSV usado en data/:
+`URL raw del CSV usado en data/:`
 
 https://datos.cdmx.gob.mx/dataset/afluencia-diaria-de-metrobus-cdmx/resource/f7943c47-835d-4078-93ea-906f64b72f3b
 
-Licencia o condiciones de uso:
+`Licencia o condiciones de uso:`
 
 Licencia GPL (Datos Abiertos de la CDMX)
 
-Fecha de consulta:
+`Fecha de consulta:`
 
 22 de junio 2026
 
-Dominio del problema:
+`Dominio del problema:`
 
 El problema consiste en la optimización del flujo y balanceo de carga en el sistema de transporte masivo de la Ciudad de México (Metrobús). Durante las horas pico, estaciones de transferencia masiva (orígenes) colapsan debido a la saturación. El objetivo es asignar estratégicamente el flujo de pasajeros de estos orígenes hacia líneas de descompresión operativas (destinos) para equilibrar el sistema y minimizar el tiempo de espera global, modelando esto como un problema de emparejamiento bipartito óptimo uno a uno.
 
@@ -41,7 +41,7 @@ El problema consiste en la optimización del flujo y balanceo de carga en el sis
 
 ### Conjunto A:
 
-Estaciones críticas de origen/interconexión con mayor saturación y flujo de pasajeros en la Ciudad de México:
+`Estaciones críticas de origen/interconexión con mayor saturación y flujo de pasajeros en la Ciudad de México:`
 
 Pantitlán (Punto de transferencia masiva este)
 
@@ -51,13 +51,13 @@ El Rosario (Nodo de interconexión noroeste)
 
 Buenavista (Conexión centro con Tren Suburbano)
 
-Criterio para elegir exactamente 4 elementos de A:
+`Criterio para elegir exactamente 4 elementos de A:`
 
 Se seleccionaron los 4 nodos terminales e interconexiones que históricamente concentran más del 60% de los transbordos caóticos y flujos de entrada en horas pico según los registros de SEMOVI.
 
 ### Conjunto B:
 
-Líneas operativas de descompresión/destinos recomendados del Metrobús para balancear la carga:
+`Líneas operativas de descompresión/destinos recomendados del Metrobús para balancear la carga:`
 
 Línea 1 (Insurgentes)
 
@@ -67,7 +67,7 @@ Línea 3 (Eje 1 Poniente)
 
 Línea 4 (Ruta Centro - Aeropuerto)
 
-Criterio para elegir exactamente 4 elementos de B:
+`Criterio para elegir exactamente 4 elementos de B:`
 
 Se seleccionaron las 4 líneas principales que conectan de forma directa o indirecta con los nodos de origen y que cuentan con la infraestructura necesaria para absorber la redistribución de pasajeros.
 
@@ -81,7 +81,7 @@ Indica que no hay una asignación preferencial directa entre el nodo de origen $
 
 ## Matriz de score
 
-Columnas usadas:
+`Columnas usadas:`
 
 afluencia (filtrada y promediada por estación y línea para el periodo reciente, eliminando columnas ruidosas como la fecha descriptiva o anio para evitar desajustes dimensionales).
 
@@ -92,7 +92,7 @@ $$S_{ij} = \text{Afluencia promedio de la estación } i \text{ canalizada hacia 
 
 Buscamos un costo operacional mínimo que represente una distribución equilibrada y fluida del tránsito de pasajeros.
 
-Normalización aplicada:
+`Normalización aplicada:`
 
 Dado que el solver clásico exhaustivo y el simulador cuántico variacional operan sobre energías directamente correlacionadas con los coeficientes, se aplicó una escala proporcional para mantener los valores reales de afluencia dentro de un rango manejable para la simulación sin perder la jerarquía y variabilidad de los datos originales del Metrobús de la CDMX.
 
@@ -105,21 +105,21 @@ $$S = \begin{pmatrix} 10.0 & 56.56 & 37.55 & 150.68 \\ 20.0 & 27.15 & 25.03 & 75
 
 ## Restricciones
 
-Restricción por filas:
+`Restricción por filas:`
 
 Cada nodo de origen $i$ debe canalizarse obligatoriamente a exactamente una línea de destino $j$:
 
 
 $$\sum_{j=0}^{3} x_{ij} = 1 \quad \forall i \in \{0, 1, 2, 3\}$$
 
-Restricción por columnas:
+`Restricción por columnas:`
 
 Cada línea de descompresión $j$ debe recibir de forma exclusiva el flujo de un único nodo de origen $i$:
 
 
 $$\sum_{i=0}^{3} x_{ij} = 1 \quad \forall j \in \{0, 1, 2, 3\}$$
 
-Otras restricciones, si existen:
+`Otras restricciones, si existen:`
 
 Ninguna adicional. Estas condiciones garantizan que el mapeo sea una biyección perfecta $4 \times 4$.
 
@@ -127,7 +127,7 @@ Ninguna adicional. Estas condiciones garantizan que el mapeo sea una biyección 
 
 Tenemos dos conjuntos disjuntos de tamaño igual (Nodos Origen $A$ y Líneas Destino $B$) donde las conexiones solo ocurren de elementos de $A$ a elementos de $B$. La asignación debe ser uno a uno (ninguna estación se queda sin línea, y ninguna línea se sobrecarga con múltiples orígenes), lo que define formalmente un matching perfecto bipartito.
 
-Justificación de por qué es razonable modelarlo como QUBO:
+`ustificación de por qué es razonable modelarlo como QUBO:`
 
 Porque podemos transformar el problema de optimización con restricciones de igualdad en un modelo sin restricciones agregando términos de penalización cuadrática al Hamiltoniano. Al plantear las penalizaciones como:
 
@@ -139,13 +139,13 @@ Cualquier estado binario inválido (como asignar una estación a dos líneas) in
 
 ## Resultados
 
-Solución clásica exacta:
+`Solución clásica exacta:`
 
 Energía mínima del Hamiltoniano de Ising: -4870.07 (con penalización dinámica $P = 800$)
 
 Estado binario óptimo (bitstring): 0001 1000 0010 0100
 
-Comentario casual de DJ: ¡Ojo aquí con el orden de los bits! Qiskit usa la convención Little Endian (el qubit $0$ es el extremo derecho). Leyendo el bitstring de derecha a izquierda, las posiciones activas corresponden exactamente a las asignaciones:
+> DJ al habla hehehe (´∇｀'')ゞ¡Ojo aquí con el orden de los bits! Qiskit usa la convención Little Endian (el qubit $0$ es el extremo derecho). Leyendo el bitstring de derecha a izquierda, las posiciones activas corresponden exactamente a las asignaciones:
 
 Estación 0 (Pantitlán) $\rightarrow$ Línea 2 (Insurgentes Sur, índice 2)
 
