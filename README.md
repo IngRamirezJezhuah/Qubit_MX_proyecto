@@ -2,6 +2,7 @@
 
 `Ramirez Alvarado David Jezhuah`
 
+![alt text](image.png)
 # Dataset
 
 Nombre del dataset:
@@ -176,7 +177,12 @@ Hardware real: No ejecutado en procesadores físicos de IBM Quantum (Simulado lo
 Para reproducir el pipeline clásico y cuántico de este proyecto, sigue estos pasos estructurados:
 
 # En Google Colabs:
-solo importas el archivo y ya
+solo importas el archivo de matriz_s.ipybn y el archivo de afluenca.....csv
+
+en el apartado de importaciones se descomentara
+
+!pip install qiskit
+y ya
 
 # en caso de ser de manera local
 1. Requisitos Previos e Instalación
